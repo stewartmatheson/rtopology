@@ -1,0 +1,9 @@
+%ul
+  %li{ "ng-repeat" => "site in sites" }
+    {{ site.site_name }}
+    %a{ :href => "{{site.url}}" }
+      Visit
+
+= javascript_include_tag "http://code.angularjs.org/angular-1.0.1.min.js"
+= javascript_include_tag "http://code.angularjs.org/angular-resource-1.0.1.min.js" 
+= javascript_include_tag "welcome"
