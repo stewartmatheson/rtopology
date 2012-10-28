@@ -17,7 +17,8 @@
   %ul
     - @site.pages.each do |page|
       %li 
-        = page.path
+        = link_to page.path, @site.url + page.path
+        Response Time (#{page.response_time}ms)
         %ul
           - page.reports.each do |report|
             %li #{report.message}
