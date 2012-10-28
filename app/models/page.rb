@@ -1,5 +1,5 @@
 class Page < ActiveRecord::Base
-  attr_accessible :path, :site_id, :results, :discovered_id
+  attr_accessible :path, :site_id, :results, :discovered_id, :response_code, :response_time, :last_audited_at, :last_error, :last_error_at
 
   belongs_to :site
   belongs_to :discovered, :class_name => "Page", :foreign_key => "discovered_id"
