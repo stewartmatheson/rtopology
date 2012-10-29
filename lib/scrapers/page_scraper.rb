@@ -34,7 +34,6 @@ module Scrapers
                         :discovered_id => @page.id)
           p.save
         end
-      
         execute_rules(document)
       rescue => e
         "[ERROR] #{e}"
@@ -47,7 +46,12 @@ module Scrapers
 
     def execute_rules document
       results = []
-      %W(CheckForTitle CheckForCanonicalLink).each do |scraper_rule|
+      %W( CheckForTitle
+          CheckForCanonicalLink
+          CheckForDescription
+          CheckForKeywords
+          CheckForScriptsInHeaders
+          CheckForMultiScripts).each do |scraper_rule|
         results << Scrapers::Rules.const_get(scraper_rule).execute(document)
       end
       
