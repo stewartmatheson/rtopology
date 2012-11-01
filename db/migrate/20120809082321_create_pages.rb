@@ -9,6 +9,7 @@ class CreatePages < ActiveRecord::Migration
       t.datetime :last_audited_at
       t.string :last_error
       t.datetime :last_error_at
+      t.string :digest 
 
       t.timestamps
     end
