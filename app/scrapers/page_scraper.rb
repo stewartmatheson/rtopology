@@ -1,3 +1,5 @@
+require 'digest/md5'
+
 module Scrapers
   class PageScraper
     def initialize page
@@ -36,7 +38,7 @@ module Scrapers
         end
         execute_rules(document)
       rescue => e
-        "[ERROR] #{e}"
+        puts "[ERROR] #{e}"
         @page.last_error = e
         @page.last_error_at = Time.now
       end
@@ -52,7 +54,7 @@ module Scrapers
           CheckForKeywords
           CheckForScriptsInHeaders
           CheckForMultiScripts).each do |scraper_rule|
-        results << Scrapers::Rules.const_get(scraper_rule).execute(document)
+        results << Rules.const_get(scraper_rule).execute(document)
       end
       
       @page.reports.delete_all     
@@ -64,6 +66,7 @@ module Scrapers
         r.save
       end
       
+      @page.digest = Digest::MD5.hexdigest(@response.body)
       @page.last_audited_at = Time.now
       @page.save
     end
