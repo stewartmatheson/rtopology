@@ -41,4 +41,10 @@ class Page < ActiveRecord::Base
   def as_json options = {}
     { :reports => reports }
   end
+
+  def page_reports
+    audits = []
+    audits << OpenStruct.new({ :message => "This page's url is #{path.length} chars. This is a little long." }) unless path.length < 115
+    audits
+  end
 end

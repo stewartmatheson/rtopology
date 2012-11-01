@@ -22,6 +22,8 @@
         %ul
           - page.reports.each do |report|
             %li #{report.message}
+          - page.page_reports.each do |report|
+            %li #{report.message}
 
 = link_to 'Edit', edit_site_path(@site)
 \|
