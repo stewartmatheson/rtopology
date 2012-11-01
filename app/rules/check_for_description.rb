@@ -1,9 +1,9 @@
-module Scrapers::Rules::CheckForKeywords
+module Rules::CheckForDescription
   def self.execute document 
     results = []
     if(document.css('meta[name=keywords]').count == 0)
       results << {  :score => 5, 
-                    :message => "You have no meta keywords in the head tag of this page" }
+                    :message => "You have no meta description set on this page" }
     end 
     results
   end

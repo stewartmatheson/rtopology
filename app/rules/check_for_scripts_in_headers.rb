@@ -1,4 +1,4 @@
-module Scrapers::Rules::CheckForScriptsInHeaders
+module Rules::CheckForScriptsInHeaders
   def self.execute document 
     results = []
     if(document.css('head script').count > 1)

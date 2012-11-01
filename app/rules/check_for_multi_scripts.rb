@@ -1,4 +1,4 @@
-module Scrapers::Rules::CheckForMultiScripts
+module Rules::CheckForMultiScripts
   def self.execute document 
     results = []
     if(document.css('script').count > 5)

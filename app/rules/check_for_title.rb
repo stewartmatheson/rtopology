@@ -1,4 +1,4 @@
-module Scrapers::Rules::CheckForTitle
+module Rules::CheckForTitle
   def self.execute document 
     results = []
     if(document.css('title').count == 0)

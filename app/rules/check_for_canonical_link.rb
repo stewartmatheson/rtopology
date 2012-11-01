@@ -1,4 +1,4 @@
-module Scrapers::Rules::CheckForCanonicalLink
+module Rules::CheckForCanonicalLink
   def self.execute document 
     results = []
     if(document.css('link[rel=canonical]').count == 0)
