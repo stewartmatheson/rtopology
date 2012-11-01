@@ -1,7 +1,7 @@
 class Page < ActiveRecord::Base
-  attr_accessible :path, :site_id, :results, :discovered_id, :response_code, :response_time, :last_audited_at, :last_error, :last_error_at
+  attr_accessible :path, :site_id, :results, :discovered_id, :response_code, :response_time, :last_audited_at, :last_error, :last_error_at, :digest
 
-  belongs_to :site
+  belongs_to :site, :dependent => :destroy
   belongs_to :discovered, :class_name => "Page", :foreign_key => "discovered_id"
   has_many :reports
 
