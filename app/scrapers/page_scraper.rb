@@ -36,6 +36,37 @@ module Scrapers
                         :discovered_id => @page.id)
           p.save
         end
+
+
+        # find all scripts that are part of this page
+        document.css('script').each do |script_tag|
+          # skip this if the script does not have a source
+          next unless script_tag.attribute('src')
+          # We don't want to know about anything else but javascript
+          next unless script_tag.attribute('type').value == 'text/javascript';
+
+          # after checks log the asset in the db
+          a = Asset.create(
+            :page_id => @page.id, 
+            :asset_type => 'javascript', 
+            :path => script_tag.attribute('src').value
+          )
+          puts "    Discoverd Javascript #{a.path}" if a.errors.empty?
+        end
+
+        #next lets remember all the style sheets
+        document.css('link').each do |link_tag|
+          # skip this if the script does not have a source
+          next unless link_tag.attribute('type')
+          next unless link_tag.attribute('type').value == 'text/css'
+          a = Asset.create(
+            :page_id => @page.id, 
+            :asset_type => 'stylesheet', 
+            :path => link_tag.attribute('href').value
+          )
+          puts "    Discoverd Stylesheet #{a.path}" if a.errors.empty?
+        end
+
         execute_rules(document)
       rescue => e
         puts "[ERROR] #{e}"
