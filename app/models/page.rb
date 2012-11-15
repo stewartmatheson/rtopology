@@ -39,7 +39,7 @@ class Page < ActiveRecord::Base
   end
 
   def as_json options = {}
-    { :reports => reports }
+    { :path => path }
   end
 
   def page_reports

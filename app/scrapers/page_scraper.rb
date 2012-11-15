@@ -31,9 +31,9 @@ module Scrapers
 
         document = Nokogiri::HTML(@response.body)
         document.css('a').each do |link|
-          p = Page.new( :path => link["href"], 
-                        :site_id => @page.site.id, 
-                        :discovered_id => @page.id)
+          p = Page.new( :path           => link["href"], 
+                        :site_id        => @page.site.id, 
+                        :discovered_id  => @page.id)
           p.save
         end
 
@@ -47,9 +47,9 @@ module Scrapers
 
           # after checks log the asset in the db
           a = Asset.create(
-            :page_id => @page.id, 
-            :asset_type => 'javascript', 
-            :path => script_tag.attribute('src').value
+            :page_id        => @page.id, 
+            :asset_type     => 'javascript', 
+            :path           => script_tag.attribute('src').value
           )
           puts "    Discoverd Javascript #{a.path}" if a.errors.empty?
         end
@@ -60,9 +60,9 @@ module Scrapers
           next unless link_tag.attribute('type')
           next unless link_tag.attribute('type').value == 'text/css'
           a = Asset.create(
-            :page_id => @page.id, 
-            :asset_type => 'stylesheet', 
-            :path => link_tag.attribute('href').value
+            :page_id      => @page.id, 
+            :asset_type   => 'stylesheet', 
+            :path         => link_tag.attribute('href').value
           )
           puts "    Discoverd Stylesheet #{a.path}" if a.errors.empty?
         end

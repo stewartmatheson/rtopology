@@ -13,6 +13,6 @@ class Site < ActiveRecord::Base
   end
 
   def as_json options = {}
-    { :site_name => site_name, :pages => pages, :audits => audits }
+    { :pages => pages }
   end
 end

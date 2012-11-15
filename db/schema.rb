@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120815053609) do
+ActiveRecord::Schema.define(:version => 20121109030444) do
+
+  create_table "assets", :force => true do |t|
+    t.integer  "page_id"
+    t.integer  "size"
+    t.string   "path"
+    t.string   "md5"
+    t.string   "asset_type"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "audits", :force => true do |t|
     t.integer  "site_id"
@@ -23,8 +33,14 @@ ActiveRecord::Schema.define(:version => 20120815053609) do
     t.text     "path"
     t.integer  "site_id"
     t.integer  "discovered_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "response_time"
+    t.integer  "response_code"
+    t.datetime "last_audited_at"
+    t.string   "last_error"
+    t.datetime "last_error_at"
+    t.string   "digest"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "reports", :force => true do |t|
