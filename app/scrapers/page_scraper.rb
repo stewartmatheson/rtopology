@@ -10,24 +10,26 @@ module Scrapers
       puts "[INFO] Scraping Page #{@page.site.uri}#{@page.path}"
       connection = Faraday.new(@page.site.uri) do |faraday|
         faraday.adapter Faraday.default_adapter 
+        #faraday.builder.response :logger
       end
       connection.headers[:user_agent] = "RTopology Spider v.(Alpha) https://github.com/stewartmatheson/rtopology"
 
       begin
         start_time = Time.now
-        @response = connection.get(@page.path)
+        @response = connection.get(@page.path, {}, request_headers(@page))
         end_time = Time.now
 
         #follow redirects
         while @response.status == 301 || @response.status == 307
           start_time = Time.now
-          @response = connection.get(@response.env[:response_headers]["location"])
+          @response = connection.get(@response.env[:response_headers]["location"], {}, request_headers(@page))
           end_time = Time.now
         end
     
         # update page
         @page.response_time = ((end_time - start_time) * 1000).to_i
         @page.response_code = @response.status
+        @page.etag = @response.env[:response_headers]["Etag"] if @response.env[:response_headers]["Etag"]
         
         document = Nokogiri::HTML(@response.body)
         document.css('a').each do |link|
@@ -36,7 +38,6 @@ module Scrapers
                         :discovered_id  => @page.id)
           p.save
         end
-
 
         # find all scripts that are part of this page
         document.css('script').each do |script_tag|
@@ -97,9 +98,15 @@ module Scrapers
         r.save
       end
       
-      @page.digest = Digest::MD5.hexdigest(@response.body)
+      @page.digest = Digest::MD5.hexdigest(@response.body) if @response.body
       @page.last_audited_at = Time.now
       @page.save
+    end
+    
+    def request_headers page
+      headers = {}
+      headers["If-None-Match"] = page.etag unless page.etag.blank?
+      headers
     end
 
   end

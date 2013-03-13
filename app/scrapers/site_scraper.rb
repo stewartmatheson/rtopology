@@ -7,15 +7,6 @@ module Scrapers
     def run
       puts "[INFO] Scraping Site #{@site.uri}"
       audit = Audit.create(:site_id => @site.id)
-
-      #Look up and respect robots.txt
-      connection = Faraday.new(@site.uri) do |faraday|
-        faraday.adapter Faraday.default_adapter 
-      end
-      connection.headers[:user_agent] = "RTopology Spider v.(Alpha) https://github.com/stewartmatheson/rtopology"
-      response = connection.get('/')
-      
-
       Scrapers::PageScraper.new(@site.home_page).run
       @site.pages.each { |page| Scrapers::PageScraper.new(page).run }
       #make sure that every page is scraped
