@@ -10,6 +10,7 @@ class CreatePages < ActiveRecord::Migration
       t.string :last_error
       t.datetime :last_error_at
       t.string :digest 
+      t.string :etag
 
       t.timestamps
     end
