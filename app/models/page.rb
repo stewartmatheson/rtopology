@@ -47,4 +47,8 @@ class Page < ActiveRecord::Base
     audits << OpenStruct.new({ :message => "This page's url is #{path.length} chars. This is a little long." }) unless path.length < 115
     audits
   end
+
+  def uri
+    site.uri + path
+  end
 end

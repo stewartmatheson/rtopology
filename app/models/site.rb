@@ -12,7 +12,8 @@ class Site < ActiveRecord::Base
     Audit.where(:site_id => id).order("created_at DESC").first
   end
 
-  def as_json options = {}
-    { :pages => pages }
-  end
+  def uri
+    return "#{url}:#{port.to_s}" unless port == 80 
+    url 
+  end 
 end
