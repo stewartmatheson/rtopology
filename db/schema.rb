@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20121109030444) do
     t.string   "last_error"
     t.datetime "last_error_at"
     t.string   "digest"
+    t.string   "etag"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
