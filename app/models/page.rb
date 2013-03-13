@@ -3,7 +3,7 @@ class Page < ActiveRecord::Base
 
   belongs_to :site, :dependent => :destroy
   belongs_to :discovered, :class_name => "Page", :foreign_key => "discovered_id"
-  has_many :reports
+  has_many :reports, :dependent => :delete_all
 
   validates_presence_of :path
   validates :path, :uniqueness => { :scope => :site_id, :message => "already scraped" }
