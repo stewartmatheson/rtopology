@@ -7,8 +7,8 @@ module Scrapers
     end
     
     def run
-      puts "[INFO] Scraping Page #{@page.site.url}#{@page.path}"
-      connection = Faraday.new(@page.site.url) do |faraday|
+      puts "[INFO] Scraping Page #{@page.site.uri}#{@page.path}"
+      connection = Faraday.new(@page.site.uri) do |faraday|
         faraday.adapter Faraday.default_adapter 
       end
       connection.headers[:user_agent] = "RTopology Spider v.(Alpha) https://github.com/stewartmatheson/rtopology"
@@ -24,11 +24,11 @@ module Scrapers
           @response = connection.get(@response.env[:response_headers]["location"])
           end_time = Time.now
         end
-
+    
         # update page
         @page.response_time = ((end_time - start_time) * 1000).to_i
         @page.response_code = @response.status
-
+        
         document = Nokogiri::HTML(@response.body)
         document.css('a').each do |link|
           p = Page.new( :path           => link["href"], 
