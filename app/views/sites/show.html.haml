@@ -9,9 +9,11 @@
 
 #pages
   - @site.pages.each do |page|
-    .page
+    .page{ :class => page_status_class(page) }
+      .response_code= page.response_code
       = link_to page.path, page.uri
-      .response_time #{page.response_time}ms
+      - if page.response_time
+        .response_time #{page.response_time}ms
       %ul.reports
         - page.reports.each do |report|
           %li #{report.message}
