@@ -1,35 +1,19 @@
-- content_for :scripts do
-  =javascript_include_tag "top.js"
+- content_for :head do
+  = stylesheet_link_tag 'site_show'
 
-%canvas#top
+%header
+  %h1= @site.site_name
+  %h2= @site.description 
+  %p= link_to "Visit Site", "#{@site.url}:#{@site.port}"
+  %p= link_to 'Edit', edit_site_path(@site)
 
-%p#notice= notice
-
-%p
-  %b Site name:
-  = @site.site_name
-
-%p
-  %b Description:
-  = @site.description
-
-%p
-  %b Url:
-  = @site.url
-
-%p
-  %b Pages #{@site.pages.count}
-  %ul
-    - @site.pages.each do |page|
-      %li 
-        = link_to page.path, @site.url + page.path
-        Response Time (#{page.response_time}ms)
-        %ul
-          - page.reports.each do |report|
-            %li #{report.message}
-          - page.page_reports.each do |report|
-            %li #{report.message}
-
-= link_to 'Edit', edit_site_path(@site)
-\|
-= link_to 'Back', sites_path
+#pages
+  - @site.pages.each do |page|
+    .page
+      = link_to page.path, page.uri
+      .response_time #{page.response_time}ms
+      %ul.reports
+        - page.reports.each do |report|
+          %li #{report.message}
+        - page.page_reports.each do |report|
+          %li #{report.message}
