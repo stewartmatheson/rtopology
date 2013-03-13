@@ -3,24 +3,38 @@ header,
   margin: 20px
 
 #pages
+  .red
+    border-left-color: red !important
+  
+  .green
+    border-left-color: green !important
+
   .page
     border: 1px solid #ccc
+    border-left-width: 5px
     width: 300px
     float: left
     padding: 10px
     margin: 0px 20px 20px 0px
-    height: 250px
-  
+    font-size: 12px
+    
+    .response_code
+      display: inline-block
+      font-size: 10px
+
     .response_time
-      float: right
+      display: inline-block
 
     a
       display: inline-block
-      width: 220px
+      width: 225px
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
 
     ul
+      display: none
       padding: 0px
-      font-size: 12px
       list-style-type: none
 
       li
